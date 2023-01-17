@@ -1,0 +1,47 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  ACTION_NAME: cargo-deny-action
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - uses: pre-commit/action@v3.0.0
+
+  test:
+    runs-on: ubuntu-latest
+    name: Test action
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run list
+        uses: ./
+        with:
+          arguments: --manifest-path test/Cargo.toml
+          command: list
+
+      - name: Run check
+        uses: ./
+        with:
+          arguments: --manifest-path test/Cargo.toml --all-features
+          command: check
+
+  release-pull-request:
+    runs-on: ubuntu-latest
+    needs: [pre-commit, test]
+    steps:
+      - uses: google-github-actions/release-please-action@v3.4.1
+        id: release
+        with:
+          release-type: simple
+          command: release-pr
+          package-name: ${{ env.ACTION_NAME }}
+          bump-minor-pre-major: true
