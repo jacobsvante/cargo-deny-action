@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/jacobsvante/cargo-deny-action/compare/v1.0.0...v1.0.1) (2024-03-27)
+
+
+### Bug Fixes
+
+* Update actions/checkout to remove deprecation warning ([ab48afe](https://github.com/jacobsvante/cargo-deny-action/commit/ab48afe8bf13bc8482994101143e3a0bfeacf4b0))
+
 ## 1.0.0 (2023-01-17)
 
 
